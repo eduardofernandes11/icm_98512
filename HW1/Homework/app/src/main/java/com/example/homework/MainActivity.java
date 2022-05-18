@@ -1,21 +1,14 @@
 package com.example.homework;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.homework.ChangeDial;
 
 import java.util.ArrayList;
 
@@ -46,10 +39,21 @@ public class MainActivity extends AppCompatActivity{
         //dial2.setText(arr.get(1));
         //dial3.setText(arr.get(2));
 
+        dial1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                startActivity(new Intent(MainActivity.this, ChangeDial.class).putExtra("name", dial1.getText().toString()));
+                return true;
+            }
+        });
+
         dial1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ChangeDial.class).putExtra("name", dial1.getText().toString()));            }
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:"+ChangeDial.list.get(dial1.getText().toString())));//change the number
+                startActivity(callIntent);
+            }
         });
 
         EditText dial = (EditText) findViewById(R.id.phone);
